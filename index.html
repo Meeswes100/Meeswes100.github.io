@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AH recepten — week 24</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2020%22%20fill%3D%22none%22%20stroke%3D%22%231a1a18%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cstyle%3E%40media%20%28prefers-color-scheme%3Adark%29%7Bsvg%7Bstroke%3A%23f1efe8%7D%7D%3C/style%3E%3Cpath%20d%3D%22M2%201.6%20L14%201.6%20L14%2017%20L12%2015.6%20L10%2017%20L8%2015.6%20L6%2017%20L4%2015.6%20L2%2017%20Z%22/%3E%3Cline%20x1%3D%224.5%22%20y1%3D%226%22%20x2%3D%2211.5%22%20y2%3D%226%22/%3E%3Cline%20x1%3D%224.5%22%20y1%3D%229%22%20x2%3D%2211.5%22%20y2%3D%229%22/%3E%3Cline%20x1%3D%224.5%22%20y1%3D%2212%22%20x2%3D%229%22%20y2%3D%2212%22/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f8f6;
+      --surface: #ffffff;
+      --text: #1a1a18;
+      --muted: #888780;
+      --faint: #d3d1c7;
+      --accent: #1a1a18;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111110;
+        --surface: #1a1a18;
+        --text: #f1efe8;
+        --muted: #888780;
+        --faint: #444441;
+        --accent: #f1efe8;
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 3rem 1.25rem 6rem;
+    }
+
+    .page {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    .header-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .header-week {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .header-date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 0.9rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      margin-bottom: 1.75rem;
+    }
+
+    .brand svg {
+      width: 15px;
+      height: 19px;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-tld {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .recipe {
+      border-top: 0.5px solid var(--faint);
+      padding: 2rem 0;
+    }
+
+    .recipe-banner {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 1.5rem;
+      image-rendering: pixelated;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .recipe-banner { filter: invert(1); }
+    }
+
+    .recipe:last-child {
+      border-bottom: 0.5px solid var(--faint);
+    }
+
+    .recipe-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.35rem;
+    }
+
+    .recipe-num {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .recipe-time {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .recipe-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      margin-top: 1.25rem;
+    }
+
+    .ingredient {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 4px 0;
+      border-bottom: 0.5px solid var(--faint);
+    }
+
+    .ingredient:last-child {
+      border-bottom: none;
+    }
+
+    .ing-name {
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .deal {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      font-style: italic;
+    }
+
+    .deal.staple {
+      opacity: 0.45;
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      padding: 5px 0;
+    }
+
+    .step-num {
+      color: var(--muted);
+      min-width: 20px;
+      font-size: 11px;
+      padding-top: 1px;
+    }
+
+    .step-text {
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <svg viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M2 1.6 L14 1.6 L14 17 L12 15.6 L10 17 L8 15.6 L6 17 L4 15.6 L2 17 Z"/>
+          <line x1="4.5" y1="6" x2="11.5" y2="6"/>
+          <line x1="4.5" y1="9" x2="11.5" y2="9"/>
+          <line x1="4.5" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span class="brand-name">cheapcook<span class="brand-tld">.nl</span></span>
+      </div>
+      <div class="header-label">Albert Heijn bonus</div>
+      <div class="header-week">week 24 — 2026</div>
+      <div class="header-date">10 juni 2026</div>
+      <div class="header-desc">vijf simpele recepten samengesteld uit de hoogst afgeprijsde bonusproducten van deze week.</div>
+    </header>
+
+    
+    <div class="recipe">
+      <img class="recipe-banner" src="data:image/png;base64,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" alt="">
+      <div class="recipe-meta">
+        <span class="recipe-num">01 / 05</span>
+        <span class="recipe-time">20 minuten</span>
+      </div>
+      <h2 class="recipe-title">Tonijn pasta met spinazie en tomaat</h2>
+
+      <div class="section-label">ingrediënten</div>
+      <div class="ingredients">
+        <div class="ingredient">
+          <span class="ing-name">Grand' Italia Fusilli tradizionali</span>
+          <span class="deal">50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Spinazie 450 gram</span>
+          <span class="deal">55% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Rio Mare Tonijnmoot in olijfolie</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Cherry tomaten</span>
+          <span class="deal">40% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Knoflook</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Olijfolie, zout, peper, gedroogde oregano</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+      </div>
+
+      <div class="section-label">bereiding</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Kook de fusilli volgens de verpakking in gezouten water.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Verhit olijfolie in een pan, bak de knoflook kort aan en voeg de cherrytomaatjes toe. Laat ze 5 minuten pruttelen tot ze zacht zijn.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Voeg de spinazie toe en laat slinken. Breng op smaak met zout, peper en oregano.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text">Laat de tonijn uitlekken en roer hem door de saus.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">05</span>
+          <span class="step-text">Giet de pasta af en schep door de saus. Serveer direct.</span>
+        </div>
+      </div>
+    </div>
+    <div class="recipe">
+      <img class="recipe-banner" src="data:image/png;base64,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" alt="">
+      <div class="recipe-meta">
+        <span class="recipe-num">02 / 05</span>
+        <span class="recipe-time">15 minuten</span>
+      </div>
+      <h2 class="recipe-title">Kipburger met geroosterde paprika en salade</h2>
+
+      <div class="section-label">ingrediënten</div>
+      <div class="ingredients">
+        <div class="ingredient">
+          <span class="ing-name">AH Scharrel krokante kipfiletburger</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Les pains boulogne</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Paprikamix</span>
+          <span class="deal">40% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH IJsbergsla fijngesneden</span>
+          <span class="deal">41% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Olijfolie, zout, peper, paprikapoeder</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+      </div>
+
+      <div class="section-label">bereiding</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Snijd de paprika's in reepjes en bak ze in olijfolie op middelhoog vuur tot ze zacht en lichtgekleurd zijn, ongeveer 8 minuten. Breng op smaak met zout en paprikapoeder.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Bak of frituur de kipfiletburgers volgens de verpakking.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Snijd de broodjes doormidden en rooster ze kort in een droge pan.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text">Beleg de broodjes met ijsbergsla, de kipburger en de geroosterde paprika.</span>
+        </div>
+      </div>
+    </div>
+    <div class="recipe">
+      <img class="recipe-banner" src="data:image/png;base64,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" alt="">
+      <div class="recipe-meta">
+        <span class="recipe-num">03 / 05</span>
+        <span class="recipe-time">25 minuten</span>
+      </div>
+      <h2 class="recipe-title">Spinazie orzo met ei en Parmezaan</h2>
+
+      <div class="section-label">ingrediënten</div>
+      <div class="ingredients">
+        <div class="ingredient">
+          <span class="ing-name">Grand' Italia Orzo tradizionali</span>
+          <span class="deal">57% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Spinazie 450 gram</span>
+          <span class="deal">55% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">3 eieren</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Knoflook</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Olijfolie, zout, peper, nootmuskaat</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Parmezaan of Beemster extra belegen geraspt</span>
+          <span class="deal">25% korting</span>
+        </div>
+      </div>
+
+      <div class="section-label">bereiding</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Kook de orzo in gezouten water volgens de verpakking. Giet af en zet apart.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Verhit olijfolie in een diepe pan en bak de knoflook glazig. Voeg de spinazie toe en laat slinken. Breng op smaak met zout, peper en een snufje nootmuskaat.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Voeg de orzo toe aan de pan en roer goed door.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text">Klop de eieren los en giet ze over het orzo-spinaziemengsel. Roer op laag vuur tot de eieren net gestold zijn, zoals een zachte scramble.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">05</span>
+          <span class="step-text">Bestrooi met geraspte kaas en serveer direct.</span>
+        </div>
+      </div>
+    </div>
+    <div class="recipe">
+      <img class="recipe-banner" src="data:image/png;base64,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" alt="">
+      <div class="recipe-meta">
+        <span class="recipe-num">04 / 05</span>
+        <span class="recipe-time">25 minuten</span>
+      </div>
+      <h2 class="recipe-title">Rigatoni met tomatensaus en groenteburgerkruimels</h2>
+
+      <div class="section-label">ingrediënten</div>
+      <div class="ingredients">
+        <div class="ingredient">
+          <span class="ing-name">Grand' Italia Rigatoni tradizionali</span>
+          <span class="deal">50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Terra Groenteburger broccoli paprika</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Pomodoro San Marzano tomaten</span>
+          <span class="deal">40% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Ui, knoflook</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Olijfolie, zout, peper, oregano, gedroogde basilicum</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+      </div>
+
+      <div class="section-label">bereiding</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Kook de rigatoni in gezouten water volgens de verpakking.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Verhit olijfolie in een pan en bak de ui en knoflook glazig. Verkruimel de groenteburgers erbij en bak mee tot ze lichtbruin zijn.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Voeg de San Marzano tomaten toe, plet ze grof met een lepel en laat de saus 10 minuten sudderen. Breng op smaak met zout, peper, oregano en basilicum.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text">Giet de pasta af en schep door de saus. Serveer direct.</span>
+        </div>
+      </div>
+    </div>
+    <div class="recipe">
+      <img class="recipe-banner" src="data:image/png;base64,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" alt="">
+      <div class="recipe-meta">
+        <span class="recipe-num">05 / 05</span>
+        <span class="recipe-time">20 minuten</span>
+      </div>
+      <h2 class="recipe-title">Farfalle salade met tonijn, paprika en ijsbergsla</h2>
+
+      <div class="section-label">ingrediënten</div>
+      <div class="ingredients">
+        <div class="ingredient">
+          <span class="ing-name">Grand' Italia Farfalle tradizionali</span>
+          <span class="deal">50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Rio Mare Tonijnmoot in olijfolie</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH Paprikamix</span>
+          <span class="deal">40% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">AH IJsbergsla melange</span>
+          <span class="deal">29% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Calvé Salademix Italiaanse kruiden</span>
+          <span class="deal">2e gratis, 50% korting</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Komkommer</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+        <div class="ingredient">
+          <span class="ing-name">Zout, peper</span>
+          <span class="deal staple">eigen voorraad</span>
+        </div>
+      </div>
+
+      <div class="section-label">bereiding</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Kook de farfalle in gezouten water, giet af en laat volledig afkoelen.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Snijd de paprika en komkommer in kleine blokjes.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Meng de afgekoelde pasta met de ijsbergsla, paprika en komkommer.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text">Laat de tonijn uitlekken en verdeel over de salade.</span>
+        </div>
+        <div class="step">
+          <span class="step-num">05</span>
+          <span class="step-text">Maak de Italiaanse kruidendressing aan volgens de verpakking en schep door de salade. Breng op smaak met zout en peper.</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>gegenereerd op 10 juni 2026</footer>
+  </div>
+</body>
+</html>
